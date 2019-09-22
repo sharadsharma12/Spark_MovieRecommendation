@@ -1,0 +1,8 @@
+val movie_id="29"
+val data = sc.textFile("C:/Users/shara/Desktop/u.data");
+val item = sc.textFile("C:/Users/shara/Desktop/u.item")
+val rdd = item.map(s => (s.toString.split("\\|")(0),s.toString.split("\\|")(1)));
+val mapid_uid = data.map(x => (x.toString().split("\t")(0),x.toString().split("\t")(1))).filter(b => (b._2==movie_id)).map(x => (x._1,1))
+val all_movie=mapid_uid.join(data.map(x => (x.toString().split("\t")(0),x.toString().split("\t")(1)))).map(c => (c._2._2,1)).reduceByKey(_+_)
+val filtered_data=all_movie.filter(o => (o._1!=movie_id)).sortBy(_._2, false).join(rdd).map(u => (u._2._1,u._2._2)).sortByKey(false)
+filtered_data.take(10).foreach(println)
