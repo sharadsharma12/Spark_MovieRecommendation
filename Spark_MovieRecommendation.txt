@@ -6,3 +6,6 @@ val mapid_uid = data.map(x => (x.toString().split("\t")(0),x.toString().split("\
 val all_movie=mapid_uid.join(data.map(x => (x.toString().split("\t")(0),x.toString().split("\t")(1)))).map(c => (c._2._2,1)).reduceByKey(_+_)
 val filtered_data=all_movie.filter(o => (o._1!=movie_id)).sortBy(_._2, false).join(rdd).map(u => (u._2._1,u._2._2)).sortByKey(false)
 filtered_data.take(10).foreach(println)
+val temp = 12
+
+
